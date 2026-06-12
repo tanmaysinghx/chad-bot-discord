@@ -58,7 +58,8 @@ player.events.on('playerError', (queue, error) => {
     console.log(`[Track Pipeline Error] ${error.message}`);
 });
 
-client.once('ready', (c) => {
+// Fixed: Using clientReady to resolve the deprecation warning
+client.once('clientReady', (c) => {
     console.log(`Chad is online and ready to roll as ${c.user.tag}!`);
 });
 

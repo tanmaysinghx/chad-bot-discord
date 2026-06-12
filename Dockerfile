@@ -1,19 +1,19 @@
-# Use a lightweight Node Alpine image to drastically cut down download and build times
+# Use a lightweight Node Alpine image for fast builds
 FROM node:20-alpine
 
-# Install FFmpeg using Alpine's fast package manager
-RUN apk add --no-cache ffmpeg
+# Install FFmpeg and system build dependencies needed for Linux audio compilation
+RUN apk add --no-cache ffmpeg build-base python3
 
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy ONLY the package configuration first
+# Copy ONLY the package configuration first to maximize Docker caching
 COPY package.json ./
 
-# Install dependencies (Docker will cache this layer unless package.json changes)
+# Install dependencies directly within the Linux environment
 RUN npm install --omit=dev
 
-# Copy the rest of your application code (Fast step)
+# Copy the rest of your application code
 COPY . .
 
 # Run Chad
