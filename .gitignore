@@ -1,0 +1,19 @@
+# Node modules (Never upload these, the server will install them itself)
+node_modules/
+
+# Your bot token and secrets (CRITICAL: Do not delete this line!)
+config.json
+.env
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Docker files (Optional, if you use Docker Compose overrides)
+docker-compose.override.yml
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
