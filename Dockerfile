@@ -1,20 +1,20 @@
-# Use an official Node.js runtime as the base image
-FROM node:20-bullseye-slim
+# Use a lightweight Node Alpine image to drastically cut down download and build times
+FROM node:20-alpine
 
-# Install FFmpeg (Crucial for discord-player audio streaming)
-RUN apt-get update && apt-get install -y ffmpeg
+# Install FFmpeg using Alpine's fast package manager
+RUN apk add --no-cache ffmpeg
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json first (better caching)
-COPY package*.json ./
+# Copy ONLY the package configuration first
+COPY package.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies (Docker will cache this layer unless package.json changes)
+RUN npm install --omit=dev
 
-# Copy the rest of your bot's code into the container
+# Copy the rest of your application code (Fast step)
 COPY . .
 
-# Command to start the bot
+# Run Chad
 CMD ["node", "index.js"]
